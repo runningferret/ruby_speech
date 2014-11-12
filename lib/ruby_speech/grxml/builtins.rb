@@ -119,21 +119,20 @@ module RubySpeech::GRXML::Builtins
     RubySpeech::GRXML.draw mode: :dtmf, root: 'number' do
       rule id: 'number', scope: 'public' do
         item repeat: '0-' do
-          ruleref uri: '#digit'
+          one_of do
+            0.upto(9) { |d| item { d.to_s } }
+          end
         end
         item repeat: '0-1' do
           item { '*' }
           item repeat: '0-' do
-            ruleref uri: '#digit'
+            one_of do
+              0.upto(9) { |d| item { d.to_s } }
+            end
           end
         end
       end
 
-      rule id: 'digit' do
-        one_of do
-          0.upto(9) { |d| item { d.to_s } }
-        end
-      end
     end
   end
 
