@@ -118,24 +118,35 @@ module RubySpeech::GRXML::Builtins
   def self.number(options = nil)
     RubySpeech::GRXML.draw mode: :dtmf, root: 'number' do
       rule id: 'number', scope: 'public' do
-        item repeat: '0-' do
-          ruleref uri: '#digit'
-        end
-        item repeat: '0-1' do
-          item { '*' }
-          item repeat: '0-' do
-            ruleref uri: '#digit'
-          end
-        end
-      end
-
-      rule id: 'digit' do
         one_of do
-          0.upto(9) { |d| item { d.to_s } }
+          item do
+            item { '*' }
+            item repeat: '1-' do
+              one_of do
+                0.upto(9) { |d| item { d.to_s } }
+              end
+            end
+          end
+          item do
+            item repeat: '1-' do
+              one_of do
+                0.upto(9) { |d| item { d.to_s } }
+              end
+            end
+            item repeat: '0-1' do
+              '*'
+            end
+            item repeat: '0-' do
+              one_of do
+                0.upto(9) { |d| item { d.to_s } }
+              end
+            end
+          end
         end
       end
     end
   end
+
 
   #
   # Create a grammar for interpreting a phone number. Uses '*' to represent 'x' for a number with an extension.
