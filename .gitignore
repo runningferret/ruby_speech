@@ -1,7 +1,6 @@
 .DS_Store
 *.gem
 *.bundle
-*.jar
 Gemfile.lock
 pkg/*
 spec/reports
